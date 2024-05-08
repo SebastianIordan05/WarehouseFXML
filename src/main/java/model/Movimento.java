@@ -20,43 +20,38 @@ import java.util.Map;
  * @author seba2
  */
 public class Movimento implements Serializable {
-    
-    private int lastCodice = 0;
     private final int codice;
     
-    private final LocalDate date;
-    private final Causale causale;
+    private final String date;
+    private final int causale; // codice causale
     private final String articoloNome; // getter from Articolo map
-    private final int quantità;
+    private final double quantità;
     private final double valoreUnitario;
     private final int iva; // %
     
     private static final String FILE = "./movimenti.dat";
     private static final Map<Integer, Movimento> movimenti = loadMovimenti(new File(FILE));
 
-    public Movimento(LocalDate date, Causale causale, String articoloNome, int quantità, double valoreUnitario, int iva) {
-        codice = ++lastCodice;
+    public Movimento(int codice, String articoloNome, int causale, String date, double quantità, double valoreUnitario, int iva) {
         this.date = date;
         this.causale = causale;
         this.articoloNome = articoloNome;
         this.quantità = quantità;
         this.valoreUnitario = valoreUnitario;
         this.iva = iva;
-    }
-
-    public int getLastCodice() {
-        return lastCodice;
+        this.codice = codice;
+        movimenti.put(codice, this);
     }
 
     public int getCodice() {
         return codice;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public Causale getCausale() {
+    public int getCausale() {
         return causale;
     }
 
@@ -64,7 +59,7 @@ public class Movimento implements Serializable {
         return articoloNome;
     }
 
-    public int getQuantità() {
+    public double getQuantità() {
         return quantità;
     }
 
@@ -92,13 +87,9 @@ public class Movimento implements Serializable {
         movimenti.remove(c);
     }
     
-//    public Articolo getArticolo() {
-//        return Articolo.articoli.get();
-//    }
-
     @Override
     public String toString() {
-        return "Movimento{" + "lastCodice=" + lastCodice + ", codice=" + codice + ", date=" + date + ", causale=" + causale + ", articoloNome=" + articoloNome + ", quantit\u00e0=" + quantità + ", valoreUnitario=" + valoreUnitario + ", iva=" + iva + '}';
+        return "Movimento{" + "codice=" + codice + ", date=" + date + ", causale=" + causale + ", articoloNome=" + articoloNome + ", quantit\u00e0=" + quantità + ", valoreUnitario=" + valoreUnitario + ", iva=" + iva + '}';
     }
     
     private static Map<Integer, Movimento> loadMovimenti(final File f) {

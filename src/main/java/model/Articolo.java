@@ -20,23 +20,19 @@ import java.util.Map;
  */
 public class Articolo implements Serializable {
     
-    private int lastCodice = 0;
     private final int codice;
-    
     private final String descrizione;
-    private final int ubicazione;
+    private int ubicazione;
+    private final String unità;
     
     private static final String FILE = "./articoli.dat";
     private static final Map<Integer, Articolo> articoli = loadArticoli(new File(FILE));
 
-    public Articolo(String descrizione, int ubicazione) {
-        codice = ++lastCodice;
+    public Articolo(int codice, String descrizione, String unità) {
+        this.codice = codice;
+        this.unità = unità;
         this.descrizione = descrizione;
-        this.ubicazione = ubicazione;
-    }
-
-    public int getLastCodice() {
-        return lastCodice;
+        articoli.put(codice, this);
     }
 
     public int getCodice() {
@@ -49,6 +45,10 @@ public class Articolo implements Serializable {
 
     public int getUbicazione() {
         return ubicazione;
+    }
+
+    public String getUnità() {
+        return unità;
     }
 
     public static String getFILE() {
@@ -69,7 +69,7 @@ public class Articolo implements Serializable {
 
     @Override
     public String toString() {
-        return "Articolo{" + "lastCodice=" + lastCodice + ", codice=" + codice + ", descrizione=" + descrizione + ", ubicazione=" + ubicazione + '}';
+        return "Articolo{" + "codice=" + codice + ", descrizione=" + descrizione + ", ubicazione=" + ubicazione + ", unit\u00e0=" + unità + '}';
     }
     
     private static Map<Integer, Articolo> loadArticoli(final File f) {
