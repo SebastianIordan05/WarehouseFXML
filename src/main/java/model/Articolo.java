@@ -23,10 +23,11 @@ public class Articolo implements Serializable {
     private final int codice;
     private final String descrizione;
     private int ubicazione;
+    private int giacenza;
     private final String unità;
     
     private static final String FILE = "./articoli.dat";
-    private static final Map<Integer, Articolo> articoli = loadArticoli(new File(FILE));
+    private static final Map<Integer, Articolo> articoli = new HashMap<>();
 
     public Articolo(int codice, String descrizione, String unità) {
         this.codice = codice;
@@ -51,12 +52,24 @@ public class Articolo implements Serializable {
         return unità;
     }
 
+    public int getGiacenza() {
+        return giacenza;
+    }
+
+    public void setGiacenza(int giacenza) {
+        this.giacenza = giacenza;
+    }
+
     public static String getFILE() {
         return FILE;
     }
 
     public static Map<Integer, Articolo> getArticoli() {
         return articoli;
+    }
+    
+    public static Articolo getArticolo(int c) {
+        return articoli.get(c);
     }
     
     public void putArticolo(Articolo a) {

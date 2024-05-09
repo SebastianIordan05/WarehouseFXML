@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,18 +23,18 @@ public class Movimento implements Serializable {
     
     private final String date;
     private final int causale; // codice causale
-    private final String articoloNome; // getter from Articolo map
+    private final int articolo; // getter from Articolo map
     private final double quantità;
     private final double valoreUnitario;
     private final int iva; // %
     
     private static final String FILE = "./movimenti.dat";
-    private static final Map<Integer, Movimento> movimenti = loadMovimenti(new File(FILE));
+    private static final Map<Integer, Movimento> movimenti = new HashMap<>();
 
-    public Movimento(int codice, String articoloNome, int causale, String date, double quantità, double valoreUnitario, int iva) {
+    public Movimento(int codice, int articoloNome, int causale, String date, double quantità, double valoreUnitario, int iva) {
         this.date = date;
         this.causale = causale;
-        this.articoloNome = articoloNome;
+        this.articolo = articoloNome;
         this.quantità = quantità;
         this.valoreUnitario = valoreUnitario;
         this.iva = iva;
@@ -55,8 +54,8 @@ public class Movimento implements Serializable {
         return causale;
     }
 
-    public String getArticoloNome() {
-        return articoloNome;
+    public int getArtico() {
+        return articolo;
     }
 
     public double getQuantità() {
@@ -89,7 +88,7 @@ public class Movimento implements Serializable {
     
     @Override
     public String toString() {
-        return "Movimento{" + "codice=" + codice + ", date=" + date + ", causale=" + causale + ", articoloNome=" + articoloNome + ", quantit\u00e0=" + quantità + ", valoreUnitario=" + valoreUnitario + ", iva=" + iva + '}';
+        return "Movimento{" + "codice=" + codice + ", date=" + date + ", causale=" + causale + ", articoloNome=" + articolo + ", quantit\u00e0=" + quantità + ", valoreUnitario=" + valoreUnitario + ", iva=" + iva + '}';
     }
     
     private static Map<Integer, Movimento> loadMovimenti(final File f) {

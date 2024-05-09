@@ -26,13 +26,13 @@ public class Causale implements Serializable {
     private final String segno; // + or -
     
     private static final String FILE = "./causali.dat";
-    private static final Map<Integer, Causale> causali = loadCausali(new File(FILE));
+    private static final Map<String, Causale> causali = new HashMap<>();
 
     public Causale(int codice, String descrizione, String segno) {
         this.descrizione = descrizione;
         this.segno = segno;
         this.codice = codice;
-        causali.put(codice, this);
+        causali.put(descrizione, this);
     }
 
     public int getCodice() {
@@ -51,15 +51,15 @@ public class Causale implements Serializable {
         return FILE;
     }
 
-    public static Map<Integer, Causale> getCausali() {
+    public static Map<String, Causale> getCausali() {
         return causali;
     }
     
     public void putMovimento(Causale c) {
-        causali.put(c.getCodice(), c);
+        causali.put(c.getDescrizione(), c);
     }
     
-    public void removeMovimento(int c) {
+    public void removeMovimento(String c) {
         causali.remove(c);
     }
 
@@ -68,7 +68,7 @@ public class Causale implements Serializable {
         return "Causale{" + "codice=" + codice + ", descrizione=" + descrizione + ", segno=" + segno + '}';
     }
     
-    private static Map<Integer, Causale> loadCausali(final File f) {
+    private static Map<String, Causale> loadCausali(final File f) {
         try {
             if (!f.exists()) {
                 f.createNewFile();
@@ -80,7 +80,7 @@ public class Causale implements Serializable {
             }
             
             final ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(f));
-            final Map<Integer, Causale> causale = (Map<Integer, Causale>) inputStream.readObject();
+            final Map<String, Causale> causale = (Map<String, Causale>) inputStream.readObject();
             
             return causale;
 
@@ -90,7 +90,7 @@ public class Causale implements Serializable {
         return new HashMap<>();
     }
     
-    public static void saveCausali(final Map<Integer, Causale> causale, final File f) {
+    public static void saveCausali(final Map<String, Causale> causale, final File f) {
         try {
             if (!f.exists()) {
                 f.createNewFile();
